@@ -7,8 +7,10 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed =5f;
     private float direction;
     private Rigidbody2D rb;
+    private SpriteRenderer sr;
     //jump
     public float jumpForce;
+
     public bool isGround;
     public Transform GroundCheck;
     public float GroundCheckRadius;
@@ -17,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
+        sr =GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -27,9 +30,18 @@ public class PlayerMovement : MonoBehaviour
 
         isGround = Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, grounLayer);
 
-        if (Input.GetButtonDown("Jump")&&isGround)
+        if (Input.GetButtonDown("Jump") && isGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+        if (rb.velocity.x < 0)
+        {
+            sr.flipX = true;
+        }
+        else
+        {
+            sr.flipX= false;
+        }
+
     }
 }

@@ -15,11 +15,14 @@ public class PlayerMovement : MonoBehaviour
     public Transform GroundCheck;
     public float GroundCheckRadius;
     public LayerMask grounLayer;
+    private Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
         rb=GetComponent<Rigidbody2D>();
         sr =GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -38,10 +41,12 @@ public class PlayerMovement : MonoBehaviour
         {
             sr.flipX = true;
         }
-        else
+        else if(rb.velocity.x > 0)
         {
             sr.flipX= false;
         }
 
+        anim.SetFloat("moveSpeed",Mathf.Abs(rb.velocity.x));
+        anim.SetBool("isGrounded", isGround);
     }
 }
